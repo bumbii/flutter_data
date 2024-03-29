@@ -283,7 +283,12 @@ class OfflineOperation<T extends DataModel<T>> with EquatableMixin {
   bool get stringify => true;
 
   // generates a unique memory-independent hash of this object
-  String get hash => md5.convert(utf8.encode(toString())).toString();
+  String get hash {
+    var strThis = toString();
+    var split = strThis.split('{content-type:');
+    var str = '${split[0]})}';
+    return md5.convert(utf8.encode(str)).toString();
+  }
 }
 
 extension OfflineOperationsX on Set<OfflineOperation<DataModel>> {
